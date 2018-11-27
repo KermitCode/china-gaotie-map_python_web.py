@@ -1,0 +1,21 @@
+$def with (rs) 
+<div class="alert alert-success alert-dismissable">
+    当前正在编辑高铁车站：<b>$rs.station - $rs.statchar </b> 的详细介绍内容
+</div>
+<div class="row-fluid">
+$for i in range(0):
+    <div class="col-md-4">
+        <div class="thumbnail">
+            <img alt="300x200" src="https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=8528bfe5ddc8a786aa27425c0660a258/d31b0ef41bd5ad6e7df37bf58dcb39dbb6fd3ca2.jpg" />
+            <div class="caption">
+                <form class="form-inline">
+                      <button class="btn btn-danger btn-sm" type="submit">删除</button>
+                      <input type="text" class="form-control input-sm" id="exampleInputAmount" placeholder="简单图片描述">
+                      <button class="btn btn-success btn-sm" type="submit">OK</button>
+                      <button class="btn btn-default btn-sm" type="submit">主图</button>
+                </form>
+            </div>
+        </div>
+    </div>
+$pass
+</div>

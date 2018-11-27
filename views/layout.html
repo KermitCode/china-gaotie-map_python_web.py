@@ -1,0 +1,59 @@
+$def with(page)
+<html>
+  <head>
+  <title>$page.base['title']</title>
+  <meta name="keywords" content="$page.base['keyword']" />
+  <meta name="description" content="$page.base['description']" />
+  </head>       
+  <body>             
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css" />
+  <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=573eb860166f9e68b008627e95c8d496"></script>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="border-bottom:3px groove #aaa;margin-bottom:0px;">
+                <div class="navbar-header">
+                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="http://gaotie.04007.cn">中国高铁线路总图</a>
+                </div>
+                
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">高铁线路列表<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                            $for key,value in page.linearr.items(): 
+                                <li> <a href="/gaotieline/$value.keychar" target="_blank">$value.name</a> </li>
+                                <li class="divider"> </li>
+                            </ul>
+                        </li>
+                        <li> <a href="/allstation" target="_blank">高铁站</a> </li>
+                        <li> <a href="/zhongguo-gaotie-zongtu.zhongguo.gaotie.wang.com" target="_blank">中国高铁地图完整版</a> </li>
+                        <li> <a href="#">欢迎加QQ群：827667455</a> </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li> <a href="http://www.04007.cn" target="_blank">04007主站</a> </li>
+                        <li> <a href="http://www.04007.cn/article/211.html" target="_blank">关于本站</a> </li>
+                        <li> <a href="#"></a> </li>
+                    </ul>
+                </div>
+            </nav>
+    </div>
+    <!--layout-->
+    $:page
+</div>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?0316c7e795a852c2a668a5f7efa5b2e3";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

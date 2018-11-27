@@ -1,0 +1,20 @@
+$def with (rs) 
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>省份名</th>
+        <th>省份字符</th>
+        <th>排序值</th>
+    </tr>
+    </thead>
+    <tbody>
+$for row in rs:
+    <tr>
+        <td>$row.id</td>
+        <td>$row.province</td>
+        <td>$row.prochar</td>
+        <td>$row.sort</td>
+    </tr>
+</tbody>
+</table>

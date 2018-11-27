@@ -1,0 +1,61 @@
+$def with (line, rsnew, linearr,statarr, base) 
+$var linearr = linearr
+$var base = base 
+$ base['title'] = line.name + '线路走向-' + line.name + '途径各高铁站列表' + base['title'] 
+$ base['keyword'] = line.name + ',' + line.name + '线路走向,' + line.name + '铁站列表' + base['keyword'] 
+  <link rel="stylesheet" type="text/css" href="http://gaotie.04007.cn/static/front/jquery.Timeline.css" />
+  <script type="text/javascript" src="http://gaotie.04007.cn/static/front/timeline.js"></script> 
+  <div class="container-fluid">
+
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="page-header text-center">
+                <h1>
+                    $line.name &nbsp;<small>$line.fullname ($line.namechar)</small>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="col-md-12">
+        <div class="VivaTimeline">
+          <dl>
+        $ index=1
+        $for row in rsnew:
+            $ leftright = 'right'
+            $if ( index % 2):
+                $ leftright='left'
+            <dt>第$index站</dt>
+            <dd class="pos-$leftright clearfix">
+              <div class="circ"></div>
+              <div class="time">$row['station']</div>
+              <div class="events">
+                <div class="events-header">$row['station']-$row['city']-$row['province']</div>
+                <div class="events-body">
+                  <div class="row">
+                    <div class="col-md-6 pull-left">
+                      <img class="events-object img-responsive img-rounded" src="$row['img']" />
+                    </div>
+                    <div class="events-desc">$:row['detail']</div>
+                  </div>
+                </div>
+                <div class="events-footer">$row['statchar'] ($row['island']站台-$row['line']线)</div>
+              </div>
+            </dd>
+            $ index = index+1
+            $pass
+
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+        \$(document).ready(function () {
+            \$(".VivaTimeline").vivaTimeline({
+                carousel: true,
+                carouselTime: 3000
+            });
+        });
+  </script>

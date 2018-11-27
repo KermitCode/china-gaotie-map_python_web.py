@@ -1,0 +1,40 @@
+$def with(msg)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>高铁知识后台管理</title>
+<script type="text/javascript" src="static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="static/css/add.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="static/utilLib/bootstrap.min.css" type="text/css" media="screen" />
+</head>
+<body>
+<div class="div_from_aoto" style="width: 500px;">
+    <FORM method="post" action="">
+        <DIV class="control-group">
+            <label class="laber_from">用户名：</label>
+            <DIV  class="controls" ><INPUT class="input_from" name='username' type=text placeholder=" 请输入用户名"><P class=help-block></P></DIV>
+        </DIV>
+        <DIV class="control-group">
+            <LABEL class="laber_from">密码：</LABEL>
+            <DIV  class="controls" ><INPUT class="input_from" name='password' type=password placeholder=" 请输入密码"><P class=help-block></P></DIV>
+        </DIV>
+        <DIV class="control-group">
+            <LABEL class="laber_from">验证码：</LABEL>
+                <DIV class="controls" >
+                    <img src="/code" onclick="this.src='/code?d='+Math.random();" style="cursor:pointer" />
+                    <INPUT class="input_from" style="width:100px;margin-left:15px;" name='code' type="text" placeholder="验证码">
+                </DIV>
+        </DIV>
+        <DIV class="control-group">
+            <LABEL class="laber_from" ></LABEL>
+            <DIV class="controls" ><button class="btn btn-success" style="width:120px;" >登录后台</button></DIV>
+        </DIV>
+        <DIV class="control-group">
+            <LABEL class="laber_from" ></LABEL>
+            <DIV class="controls" style="color:red;">$msg</DIV>
+        </DIV>
+    </FORM>
+</div>
+</body>
+</html>

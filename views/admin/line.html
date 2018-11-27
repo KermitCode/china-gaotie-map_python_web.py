@@ -1,0 +1,54 @@
+$def with (rs, adminer) 
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>线路简称</th>
+        <th>线路全名</th>
+        <th>状态</th>
+        <th>建成日期</th>
+        <th>设速</th>
+        <th>运速</th>
+        <th>全长</th>
+        <th>颜色</th>
+        <th>途径站点</th>
+        <th>介绍</th>
+        <th>操作</th>
+$if(adminer):
+    <th>全编辑</th>
+$pass
+        <th>锁定</th>
+    </tr>
+    </thead>
+    <tbody>
+$for row in rs:
+    <tr>
+        <td>$row.id</td>
+        <td>$row.name</td>
+        <td>$row.fullname</td>
+        <td>$row.statusc</td>
+        <td>$row.building</td>
+        <td>$row.speed</td>
+        <td>$row.onspeed</td>
+        <td>$row.longkm</td>
+        <td style="background-color:$row.color;"></td>
+        <td><a href="/linestats/$row.id#bottom">全线站点设置</a></td>
+        <td>
+        <a href="/articledit?lid=$row.id">编辑</a>
+        <td>
+        <a href="/linedit?id=$row.id">修改</a>&nbsp; <a href="/lineimg/$row.id">图片</a>
+        </td>
+    $if(adminer):
+            <td><a href="/allstatedit/$row.id" class="btn btn-info btn-xs">全编辑</a></td>
+        $if(row.locking):
+            <td><a href="/linelock?doid=$row.id" class="btn btn-danger btn-xs">解锁</a></td>
+        $else:
+            <td><a href="/linelock?doid=$row.id" class="btn btn-success btn-xs">锁定</a></td>
+    $else:
+        $if(row.locking):
+            <td><a class="btn btn-danger btn-xs">不可编辑</a></td>
+        $else:
+            <td><a class="btn btn-success btn-xs">可编辑</a></td>
+    </tr>
+</tbody>
+</table>

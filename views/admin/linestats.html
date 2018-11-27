@@ -1,0 +1,98 @@
+$def with (line,rs, data) 
+<div class="row-fluid">
+  <div class="col-md-2"></div>
+  <div class="col-md-6">
+        <p class="text-center text-danger"><b>$line['name'] </b>($line['fullname']) 途径高铁站列表,点击站点可设置排序</p>
+        <p class="text-center"><img src="/static/imgs/train.jpg" class="img-thumbnail" style="width:50%;height:50%;" /></p>
+        $ index=1
+        $for row in rs:
+            <p class="text-center"><img src="/static/imgs/arr.jpg" class="img-circle" style="width:20px;height:20px;"/></p>
+            <p class="">
+                <button type="button" data="$row['id']" class="btn btn-success btn-xs btn-block modsort" style="width:60%;margin:auto;text-align:left;">
+                <span style="color:yellow;margin-left:10%;">第$index站 </span>
+                <span style="font-size:18px;font-weight:bolder">【$row['station']】</span>
+                <span style="color:yellow;">$row['city']-$row['province']</span>
+                </button>
+            </p>
+            $ index = index+1
+
+        <p class="text-center">
+            <hr>
+            <a id="modal-87081" href="#modal-container-87081" role="button" class="btn btn-info btn-block" data-toggle="modal">点击添加途经高铁车站</a>
+        </p>
+
+    
+  </div>
+  <div class="col-md-3"></div>
+  <div style="clear:both;"></div>
+</div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="modal fade" id="modal-container-87081" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                             <input type="hidden" id="line_id" value="$line['id']">
+                            <h4 class="modal-title" id="myModalLabel">各省高铁车站列表</h4>
+                        </div>
+                        <div class="modal-body" >
+                        $for key in data['statarr']:
+                            <h5>$key</h5>
+                            <p>
+                            $for skey in data['statarr'][key]:
+                                <button bid="$skey" type="button" class="btn btn-success btn-xs addstat">$data['statarr'][key][skey]</button>
+&nbsp;&nbsp;
+                            </p>
+                        $pass
+                        </div>
+                        <div class="modal-footer">
+                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭窗口</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<a name="bottom"></a>
+<script language='javascript'>
+\$(function(){
+    \$(".addstat").click(function(){
+        var sid = \$(this).attr('bid');    
+        var lid = \$('#line_id').val();    
+        \$.post("/linestats/"+lid, {sid: sid},
+            function(data){
+                if(data.status==0){
+                    window.location.reload();
+                }else{
+                    alert(data.msg);
+                } 
+        }, "json");
+    });
+
+    \$(".modsort").click(function(){
+        var sort = window.prompt("请设置要将此站调整为第几站:");
+        var re = /^[0-9]+.?[0-9]*/;
+　　    if (!re.test(sort)) { 
+            alert('无效数字.');
+            return false;
+　　    } 
+        var lid = \$('#line_id').val();    
+        var statid = \$(this).attr('data');    
+        \$.post("/linestats/"+lid, {sid: statid, sort:sort},
+            function(data){
+                if(data.status==0){
+                    window.location.reload();
+                }else{
+                    alert(data.msg);
+                } 
+        }, "json");
+    });
+
+    \$('html').animate(
+        {scrollTop:\$('#scroll').offset().top},10
+    );
+});
+</script>
+
+

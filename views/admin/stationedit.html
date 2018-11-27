@@ -1,0 +1,209 @@
+$def with (data, oridata) 
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=573eb860166f9e68b008627e95c8d496"></script>
+<div class="row-fluid">
+    <p style="font-size:14px;color:red;margin-botton:10px;">如要疑问请先查看<a href="/help" target="_blank">后台帮助</a></p>
+    <form class="form-horizontal" action="/stationedit" method="post" >
+      <div class="form-group">
+        <label class="col-sm-2 control-label">高铁站名：</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" name="station" id="station" value="$oridata.get('station','')">
+          $if oridata.get('id', '0') != '0':
+            <input type="hidden" class="form-control" name="id" value="$oridata.get('id')">
+        </div>
+        <div class="col-sm-8">
+            <label class="col-sm-2 control-label">英文站名：</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="statchar" id="statchar" value="$oridata.get('statchar','')">
+            </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">所属省份：</label>
+        <div class="col-xs-2">
+            <select class="form-control col-sm-2" name="pid" id="province">
+$for row in data['province']:
+    <option value="$row['id']">$row['pro']</option>
+</select>
+        </div>
+        <div class="col-xs-8">
+            <label class="col-sm-2 control-label">所在城市：</label>
+            <div class="col-xs-2">
+                <select class="form-control col-sm-5" name="cid" id="city"></select>
+            </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">详细地址：</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" name="address" id="address" value="$oridata.get('address','')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">建成时间：</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" name="building" id="building" value="$oridata.get('building','2016-12-20')">
+        </div>
+        <div class="col-sm-8">
+            <label class="col-sm-2 control-label">占地面积：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="area" id="area" value="$oridata.get('area','10000')">
+            </div>
+            <div class="col-sm-7 text-left">
+                <p class="help-block">单位:平方米</p>
+            </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">车站等级：</label>
+        <div class="col-sm-2">
+            <select class="form-control" name="grade" id="grade">
+$for grade in data['grade']:
+    <option value="$grade">$grade</option>
+</select>
+        </div>
+        <div class="col-sm-8">
+            <label class="col-sm-2 control-label">年客运量：</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" name="passengers" id="passengers" value="$oridata.get('passengers','100')">
+            </div>
+            <div class="col-sm-7 text-left">
+                <p class="help-block">单位:万人次</p>
+            </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">几站台：</label>
+        <div class="col-sm-2 text-left" >
+             <input placeholder="站台数" class="form-control" type="text" name="island" id="island" value="$oridata.get('island','')">
+        </div> 
+        <div class="col-sm-8" >
+             <label class="col-sm-2 control-label">几线：</label>
+             <div class="col-sm-3" >
+                <input placeholder="线数" class="form-control"  type="text" name="line" id="line" value="$oridata.get('line','')">
+            </div> 
+        </div> 
+      </div>
+
+      <div class="form-group" >
+        <label class="col-sm-2 control-label">车站经度：</label>
+        <div class="col-sm-2" >
+             <input placeholder="经度" class="form-control" type="text" name="longitude" id="longitude" value="$oridata.get('longitude','')">
+        </div> 
+        <div class="col-sm-8" >
+             <label class="col-sm-2 control-label" for="latitude">纬度：</label>
+             <div class="col-sm-3" >
+                 <input placeholder="纬度" class="col-sm-2 form-control" type="text" name="latitude" id="latitude" value="$oridata.get('latitude','')">
+             </div> 
+        </div> 
+      </div>
+
+      <div class="form-group" >
+        <label class="col-sm-1 control-label"></label>
+        <div class="form-group col-sm-10">
+            <p class="help-block">&nbsp;&nbsp;输入站名后下方地图会搜索站名,点击地图上的位置即可获取经纬度.</p>
+            <div id="allmap" class="col-sm-11 img-rounded bg-primary" style="border:1px solid #aaa;height:350px;margin:2px;font-family:"微软雅黑";"></div>
+        </div>
+      </div>
+        
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary col-sm-5">新增/修改车站信息</button>
+        </div>
+      </div>
+    </form>
+</div>
+<script language='javascript'>
+\$(function(){
+    var citys = new Array();
+    var cityjson = $:data['cityjson'];
+    \$("#province").change( function() {
+        var proid = \$("#province").val();
+        \$("#city").empty();
+        \$.each(cityjson[proid], function(key,val){
+            \$("#city").append("<option value='" +key+"'>"+val+"</option>");
+        });
+    });
+    \$("#province").change();
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 14);
+    map.addControl(new BMap.MapTypeControl({
+        mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+        ]}));     
+    map.setCurrentCity("北京");
+    map.enableScrollWheelZoom(true);
+    function showInfo(e){
+        \$("#longitude").val(e.point.lng);
+        \$("#latitude").val(e.point.lat);
+    }
+    map.addEventListener("click", showInfo);
+    
+    var local = new BMap.LocalSearch(map, {
+        renderOptions:{map: map}
+    });
+    \$("#station").focusout(function() {
+    $if oridata.get('id', '0') != '0':
+        return true;
+    $pass
+        var stat = \$(this).val();
+        if(stat == '') return false;
+        var myReg = /^[\u4e00-\u9fa5]+\$/;
+        if (!myReg.test(stat)) {
+            alert("站点必须是中文");
+            \$(this).val('')
+            return false;
+        }
+        \$.post("/statcheck", {stat: stat},
+             function(data){
+                 if(data.status==0){
+                     //alert('ok,站点可增加');
+                 }else{
+                     alert(data.msg);
+                     \$("#station").val('');
+                     return false;
+                 } 
+         }, "json");
+    
+        local.search(\$(this).val());
+    });
+    
+    function getcurdate(){
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1)
+         : nowDate.getMonth() + 1;
+        var day = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate
+         .getDate();
+        var dateStr = year + "-" + month + "-" + day;
+        return dateStr;
+    };
+
+    \$("#building").focusout(function() {
+        var dchar = \$(this).val();
+        dateString= dchar.replace(/-/g, '');
+        var reg = /(\d{4})(\d{2})(\d{2})/;
+        if (dateString.length==8 && reg.test(dateString) && RegExp.\$1>1950 && RegExp.\$1< 2030 && RegExp.\$2 <= 12 && RegExp.\$3 <= 31){
+            var formatedDate = dateString.replace(reg, '\$1-\$2-\$3');
+            \$("#building").val(formatedDate);
+            return true;
+        }
+        alert("无效日期:yyyy-mm-dd或yyyymmdd!");
+        \$("#building").val(getcurdate());
+        return false;
+    });
+
+$if oridata.get('id', '0') != '0':
+    \$("#province").val("$oridata.get('pid')");
+    \$("#province").change();
+    \$("#city").val("$oridata.get('cid')");
+    \$("#station").focusout();
+    \$("#grade").val("$oridata.get('grade')");
+    \$("#station").attr("readonly","readonly");
+});
+</script>

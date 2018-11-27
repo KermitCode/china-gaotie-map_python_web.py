@@ -1,0 +1,9 @@
+$def with (err='') 
+<div class="alert alert-danger alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4>ERROR:</h4> <strong>!</strong>&nbsp;
+$if err:
+    $err
+$else:
+    请求参数有误或发生异常
+</div>

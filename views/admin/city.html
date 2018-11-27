@@ -1,0 +1,39 @@
+$def with (rs,province, proid) 
+<div class="row-fluid">
+    <p style="line-height:40px;">
+    $for row in province:
+        $ act = ''
+        $if(row['id'] == proid):
+            $ act = 'active' 
+        <a class="btn btn-primary btn-sm $act" href="/city?proid=$row['id']">$row['pro']</a>
+    $pass 
+    </p>
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>城市ID</th>
+        <th>城市名</th>
+        <th>城市字符</th>
+        <th>省份ID</th>
+        <th>省份名</th>
+        <th>省份字符</th>
+        <th>经度</th>
+        <th>纬度</th>
+    </tr>
+    </thead>
+    <tbody>
+    $for row in rs:
+    <tr>
+        <td>$row.id</td>
+        <td>$row.city</td>
+        <td>$row.citychar</td>
+        <td>$row.proid</td>
+        <td>$row.province</td>
+        <td>$row.prochar</td>
+        <td>$row.longitude</td>
+        <td>$row.latitude</td>
+    </tr>
+    $pass
+</tbody>
+</table>
+</div>

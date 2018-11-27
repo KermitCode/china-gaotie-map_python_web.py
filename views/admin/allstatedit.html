@@ -1,0 +1,105 @@
+$def with (rs, oridata, lid)
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=573eb860166f9e68b008627e95c8d496"></script>
+<div class="row-fluid">
+    <h5>当前正在编辑高铁线路：<a class="btn btn-danger">$rs.name</a> 以下为线路各车站名称-经纬度及排序：</h5>
+    <hr>
+    <h6>百度地图经纬度查询链接：<a href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">点击进入百度查询</a></h6>
+    <form class="form-horizontal" action="" method="post" >
+   
+    <div id="allunits">
+    $ i=1
+    $for row in oridata: 
+      <div class="form-group" >
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-1" >
+             <input placeholder="排序" class="form-control" type="text" name="s_$i" value="$row.sortnum">
+        </div>
+        <div class="col-sm-3" >
+             <input placeholder="站点名称" class="form-control addst" type="text" name="st_$i" value="$row.stat_name">
+        </div>
+        <div class="col-sm-4" >
+             <input placeholder="经纬度" class="form-control" type="text" name="jwd_$i" value="$row.jingweidu">
+        </div>
+      </div> 
+        $ i += 1
+    $pass
+    </div>
+      <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-4">
+          <button type="button" id="addhtml" class="btn btn-info col-sm-3">+添加一行</button>
+          <button type="button" id="addhtml3" class="btn btn-info col-sm-offset-1 col-sm-3">+添加3行</button>
+          <button type="button" id="addhtml10" class="btn btn-info col-sm-offset-1 col-sm-3">+添加10行</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary col-sm-5">提交线路全车站数据</button>
+        </div>
+      </div>
+    </form>
+</div>
+<script language='javascript'>
+\$(function(){
+      var snum = $len(oridata);
+      \$("#addhtml").click(function() {
+        snum=snum+1;
+      unithtml='<div class="form-group" > <label class="col-sm-2 control-label"></label> <div class="col-sm-1" > <input placeholder="排序" class="form-control" type="text" name="s_'+snum+'" value="'+snum+'"> </div> <div class="col-sm-3" > <input placeholder="站点名称" class="form-control addst" type="text" name="st_'+snum+'" value=""> </div> <div class="col-sm-4" > <input placeholder="经纬度" class="form-control" type="text" name="jwd_'+snum+'" value=""> </div> </div>'
+        \$("#allunits").append(unithtml);
+        \$(".addst").focusout(function() { 
+           var stat = \$(this).val(); 
+           if(stat == '') return false;
+           var myReg = /^[\u4e00-\u9fa5]+\$/;
+           if (!myReg.test(stat)) {
+               alert("站点必须是中文");
+               \$(this).val('')
+               return false;
+           }    
+           var jwdinput=\$(this).attr('name').replace('st_', 'jwd_'); 
+            \$.get("/getjwd?stat="+stat,
+                 function(data){
+                     if(data==''){
+                         alert('经纬度查询异常.');
+                     }else{
+                        \$("input[name='"+jwdinput+"']").val(data);
+                     }
+             });
+
+        });
+
+    });
+
+     
+    \$("#addhtml3").click(function() {
+        \$("#addhtml").click();
+        \$("#addhtml").click();
+        \$("#addhtml").click();
+    });
+    \$("#addhtml10").click(function() {
+        \$("#addhtml3").click();
+        \$("#addhtml3").click();
+        \$("#addhtml3").click();
+        \$("#addhtml").click();
+    });
+
+    \$(".addst").focusout(function() { 
+        var stat = \$(this).val(); 
+        if(stat == '') return false;
+        var myReg = /^[\u4e00-\u9fa5]+\$/;
+        if (!myReg.test(stat)) {
+            alert("站点必须是中文");
+            \$(this).val('')
+            return false;
+        }    
+        var jwdinput=\$(this).attr('name').replace('st_', 'jwd_'); 
+        \$.get("/getjwd?stat="+stat,
+             function(data){
+                 if(data==''){
+                     alert('经纬度查询异常.');
+                 }else{
+                     \$("input[name='"+jwdinput+"']").val(data);
+                 }
+         });
+    }); 
+}); 
+</script>

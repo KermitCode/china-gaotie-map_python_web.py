@@ -1,0 +1,164 @@
+$def with (data, oridata) 
+<div class="row-fluid">
+    <p style="font-size:14px;color:red;margin-botton:10px;">如要疑问请先查看<a href="/help" target="_blank">后台帮助</a></p>
+    <form class="form-horizontal" action="/linedit" method="post" >
+      <div class="form-group">
+        <label class="col-sm-2 control-label">线路简称：</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" name="name" id="name" value="$oridata.get('name','')">
+          $if oridata.get('id', '0') != '0':
+            <input type="hidden" class="form-control" name="id" value="$oridata.get('id')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">线路全名：</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" name="fullname" id="fullname" value="$oridata.get('fullname','')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">英文名称：</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" name="namechar" id="namechar" value="$oridata.get('namechar','')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">线路全长：</label>
+        <div class="col-sm-1">
+          <input type="text" class="form-control" name="longkm" id="longkm" value="$oridata.get('longkm','')">
+        </div>
+        <div class="col-sm-8 text-left">
+            <p class="help-block">单位:Km</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">建成时间：</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" name="building" id="building" value="$oridata.get('building','')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">建设状态：</label>
+        <div class="col-sm-2">
+            <select class="form-control" name="statusc" id="statusc">
+$for status in data['status']:
+    <option value="$status" >$status</option>
+</select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">线路颜色：</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" name="color" id="color" >
+        </div>
+        <div class="col-sm-7 text-left">
+            <p class="help-block">请点击输入框选择颜色</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">设计时速：</label>
+        <div class="col-sm-1">
+          <input type="text" class="form-control" name="speed" id="speed" value="$oridata.get('speed','')">
+        </div>
+        <div class="col-sm-7 text-left">
+            <p class="help-block">单位:Km/h</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">最高运营时速：</label>
+        <div class="col-sm-1">
+          <input type="text" class="form-control" name="onspeed" id="onspeed" value="$oridata.get('onspeed','')">
+        </div>
+        <div class="col-sm-7 text-left">
+            <p class="help-block">单位:Km/h</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary col-sm-5">新增/修改线路信息</button>
+        </div>
+      </div>
+    </form>
+</div>
+<script language='javascript'>
+\$(function(){
+    
+    \$("#name").focusout(function() {
+        var linename = \$(this).val();
+        if(linename == '') return false;
+        var myReg = /^[\u4e00-\u9fa5]+\$/;
+        if (!myReg.test(linename)) {
+            alert("线路名称必须是中文"); 
+            \$(this).val('')
+            return false;
+        }   
+        \$.post("/linecheck", {linename: linename},
+             function(data){
+                 if(data.status==0){
+                     //alert('ok,线路可增加'); 
+                 }else{
+                     alert(data.msg);
+                     \$("#name").val('');
+                     return false;
+                 }   
+         }, "json");
+    }); 
+
+    function getcurdate(){
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1)
+         : nowDate.getMonth() + 1;
+        var day = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate
+         .getDate();
+        var dateStr = year + "-" + month + "-" + day;
+        return dateStr;
+    };
+
+    \$("#building").focusout(function() {
+        //var dchar = \$(this).val();
+        //dateString= dchar.replace(/-/g, '');
+        //dateString= dchar.replace('年', '-');
+        //dateString= dchar.replace('月', '-');
+        //dateString= dchar.replace('日', '');
+        //var reg = /(\d{4})(\d{2})(\d{2})/;
+        //if (dateString.length==8 && reg.test(dateString) && RegExp.\$1>1950 && RegExp.\$1< 2030 && RegExp.\$2 <= 12 && RegExp.\$3 <= 31){
+        //    var formatedDate = dateString.replace(reg, '\$1-\$2-\$3');
+        //    \$("#building").val(formatedDate);
+        //    return true;
+        //}
+        //alert("无效日期:yyyy-mm-dd或yyyymmdd!");
+        //\$("#building").val(getcurdate());
+        //return false;
+    });
+
+    \$('#color').colorpicker({
+            allowEmpty:true,//允许为空,显示清楚颜色按钮
+            color: "$oridata.get('color','#ffffff')" ,//初始化颜色
+            showInput: true,//显示输入
+            containerClassName: "full-spectrum",
+            showInitial: true,//显示初始颜色,提供现在选择的颜色和初始颜色对比
+            showPalette: true,//显示选择器面板
+            showSelectionPalette: true,//记住选择过的颜色
+            showAlpha: true,//显示透明度选择
+            maxPaletteSize: 7,//记住选择过的颜色的最大数量
+            preferredFormat: "hex"//输入框颜色格式,(hex十六进制,hex3十六进制可以的话只显示3位,hsl,rgb三原
+    });
+
+$if oridata.get('id', '0') != '0':
+    \$("#statusc").val("$oridata.get('statusc')");
+    \$("#name").attr("readonly","readonly");
+
+});
+</script>
+<script src="https://cdn.bootcss.com/bootstrap-colorpicker/3.0.0-beta.1/js/bootstrap-colorpicker.min.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap-colorpicker/3.0.0-beta.1/css/bootstrap-colorpicker.min.css" rel="stylesheet">

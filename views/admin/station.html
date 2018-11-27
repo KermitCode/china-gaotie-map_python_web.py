@@ -1,0 +1,58 @@
+$def with (rs, adminer, proid, province) 
+<div class="row-fluid">
+    <p style="line-height:40px;">
+    $if not proid:
+        <a class="btn btn-success btn-sm active" href="#">全部车站</a>
+    $else:
+        <a class="btn btn-success btn-sm" href="/station">全部车站</a>
+        
+    $for row in province:
+        $ act = ''
+        $if(row['id'] == proid):
+            $ act = 'active' 
+        <a class="btn btn-primary btn-sm $act" href="/station?proid=$row['id']">$row['pro']</a>
+    $pass 
+    </p>
+</div>
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>站名</th>
+        <th>英文站名</th>
+        <th>等级</th>
+        <th>位置</th>
+        <th>规模</th>
+        <th>建成日期</th>
+        <th>介绍</th>
+        <th>操作</th>
+        <th>锁定</th>
+    </tr>
+    </thead>
+    <tbody>
+$for row in rs:
+    <tr>
+        <td>$row.id</td>
+        <td>$row.station</td>
+        <td>$row.statchar</td>
+        <td>$row.grade</td>
+        <td>$row.address</td>
+        <td>$row.island-$row.line</td>
+        <td>$row.building</td>
+        <td>
+        <a href="/articledit?sid=$row.id" target="_blank">编辑</a></td>
+        <td>
+        <a href="/stationedit?id=$row.id" target="_blank">修改</a>&nbsp;<a href="/stationimg/$row.id" target="_blank">图片</a></td>
+    $if(adminer):
+        $if(row.locking):
+            <td><a href="/statlock?doid=$row.id" class="btn btn-danger btn-xs">解锁</a></td>
+        $else:
+            <td><a href="/statlock?doid=$row.id" class="btn btn-success btn-xs">锁定</a></td>
+    $else:
+        $if(row.locking):
+            <td><a class="btn btn-danger btn-xs">不可编辑</a></td>
+        $else:
+            <td><a class="btn btn-success btn-xs">可编辑</a></td>
+    </tr>
+</tbody>
+</table>

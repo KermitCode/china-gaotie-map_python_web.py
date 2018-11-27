@@ -1,0 +1,57 @@
+$def with (linearr,statarr,base,rs) 
+$var linearr = linearr
+$var base = base 
+$ base['title'] = '中国高铁站大全-中国各条高铁线路途径车站大全-' + base['title'] 
+$ base['keyword'] = '中国高铁站大全,中国各条高铁线路途径车站大全,' + base['keyword'] 
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="http://www.17sucai.com/preview/1/2017-03-19/pbl/css/animate.css">
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="http://www.17sucai.com/preview/1/2017-03-19/pbl/css/magnific-popup.css">
+	<!-- Salvattore -->
+	<link rel="stylesheet" href="http://www.17sucai.com/preview/1/2017-03-19/pbl/css/salvattore.css">
+	<!-- Theme Style -->
+	<link rel="stylesheet" href="http://www.17sucai.com/preview/1/2017-03-19/pbl/css/style.css">
+	<!-- Modernizr JS -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/respond.min.js"></script>
+	<![endif]-->
+		
+	<div id="fh5co-main">
+		<div class="container-fluid">
+	    <div class="row">
+        <div id="fh5co-board" data-columns>
+
+        $for row in rs:
+        	<div class="item"> <div class="animate-box">
+	        <a href="$row.img" class="image-popup fh5co-board-img" title=""><img src="$row.img" alt=""></a>
+            </div>
+        		<div class="fh5co-desc"><h3>$row.station</h3> 
+                <p> 
+                <small>($row.statchar)</small> $row.address
+                </p>
+            </div>
+        	</div>
+        </div>
+        </div>
+       </div>
+	</div>
+	<!-- jQuery -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/jquery.waypoints.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/jquery.magnific-popup.min.js"></script>
+	<!-- Salvattore -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/salvattore.min.js"></script>
+	<!-- Main JS -->
+	<script src="http://www.17sucai.com/preview/1/2017-03-19/pbl/js/main.js"></script>

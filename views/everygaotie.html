@@ -1,0 +1,57 @@
+$def with(linearr, linestatarr,linestats, base, line, speed, line_id)
+$var linearr = linearr
+$var base = base
+$ base['title'] = line.name + '详细-'+line.fullname+'走向-设计时速('+speed+'Km/h)' + line.namechar + '-中国高铁完整地图'
+$ base['keyword'] = line.name + '详细-'+line.fullname+'走向-设计时速('+speed+'Km/h)' + line.namechar + base['keyword'] 
+<div class="row" id ="allmap" style="height:93%;"></div>
+<script language='javascript'>
+\$(function(){
+    var map = new BMap.Map("allmap");    // 创建Map实例
+        map.centerAndZoom(new BMap.Point(108.57, 34.17), 6);  // 初始化地图,设置中心点坐标和地图级别
+        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+      var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
+        scale: 0.5,//图标缩放大小
+        strokeColor:'#fff',//设置矢量图标的线填充颜色
+        strokeWeight: '1',//设置线宽
+    });
+    var icons = new BMap.IconSequence(sy, '10', '30');
+    // 创建polyline对象
+    
+    function redirto(url){
+    }
+
+    //data
+$for key,value in linearr.items():
+    $ weight= 6
+    $if ( value.speed == 300): 
+        $ weight=5
+    $elif ( value.speed == 250): 
+        $ weight=4
+    $elif ( value.speed == 200): 
+        $ weight=3
+    $else:
+        $ weight=6
+ 
+    var pois = [
+    $for row in linestatarr[key]:
+        new BMap.Point($row['jingweidu']),\
+    ];
+    var polyline$key =new BMap.Polyline(pois, {
+    enableEditing: false,//是否启用线编辑，默认为false
+    enableClicking: true,//是否响应点击事件，默认为true
+    icons:[icons],
+    strokeWeight:"$weight",//折线的宽度，以像素为单位
+    strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
+    strokeColor:"$value.color" //折线颜色
+    });
+    map.addOverlay(polyline$key);
+    polyline$(key).addEventListener("click", function(e){
+        parent.location.href='http://gaotie.04007.cn/gaotieline/$value.keychar';
+    });
+
+    $for row in linestats[key]:
+        var points = new BMap.Point($row['jingweidu'])); var marker = new BMap.Marker(points); map.addOverlay(marker);
+
+
+});
+</script>

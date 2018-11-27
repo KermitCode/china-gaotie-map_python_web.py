@@ -1,0 +1,35 @@
+$def with (rs, adminer) 
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>标题</th>
+        <th>创建时间</th>
+        <th>修改时间</th>
+        <th>操作</th>
+        <th>锁定</th>
+    </tr>
+    </thead>
+    <tbody>
+$for row in rs:
+    <tr>
+        <td>$row.id</td>
+        <td>$row.title</td>
+        <td>$row.create_time</td>
+        <td>$row.update_time</td>
+        <td>
+        <a href="/articledit?aid=$row.id">修改</a>
+        </td>
+    $if(adminer):
+        $if(row.locking):
+            <td><a href="/artilock?doid=$row.id" class="btn btn-danger btn-xs">解锁</a></td>
+        $else:
+            <td><a href="/artilock?doid=$row.id" class="btn btn-success btn-xs">锁定</a></td>
+    $else:
+        $if(row.locking):
+            <td><a class="btn btn-danger btn-xs">不可编辑</a></td>
+        $else:
+            <td><a class="btn btn-success btn-xs">可编辑</a></td>
+    </tr>
+</tbody>
+</table>

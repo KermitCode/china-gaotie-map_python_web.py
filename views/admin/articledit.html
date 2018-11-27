@@ -1,0 +1,159 @@
+$def with (data, oridata, sid, lid) 
+<div class="row-fluid">
+    <form class="form-horizontal" action="/articledit" method="post" >
+      <div class="form-group">
+        <label class="col-sm-2 control-label">文章标题：</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" name="title" id="title" value="$oridata.get('title','')">
+          <input type="hidden" name="id" value="$oridata.get('id','0')">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">类别：</label>
+        <div class="col-sm-2">
+            <select class="form-control" name="typeval" id="typeval">
+$for row in data['type']:
+    <option value="$row['id']" >$row['name']</option>
+</select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">关联高铁车站：</label>
+        <div class="col-sm-2">
+          <input type="hidden" class="form-control" name ="station_id" id="station_id" value="$oridata.get('station_id','')">
+          <input type="text" class="form-control" id="station_show">
+        </div>
+        <div class="col-sm-1 text-left">
+            <a id="modal-87081" href="#modal-container-87081" role="button" class="btn btn-info" data-toggle="modal">选择高铁车站</a>
+        </div>
+        <div class="col-sm-2" style="margin-left:20px;">
+            <a role="button" class="btn btn-danger" id="clearstat" data-toggle="modal">清除</a>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">关联高铁线路：</label>
+        <div class="col-sm-4">
+            <select class="form-control" name="line_id" id="line_id">
+                <option value="0" >不关联线路</option>
+$for row in data['linearr']:
+    <option value="$row['lid']">$row['name']</option>
+</select>
+        </div>
+        <div class="col-sm-2 text-left">
+            <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="hidden" id="detail" name="detail" value="$oridata.get('detail', '')" >
+        <div id="divDemo" class="col-sm-offset-1 col-sm-10 text" style="z-index:2;"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary col-sm-5">新增/修改文章</button>
+        </div>
+      </div>
+    </form>
+</div>
+
+
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="modal fade" id="modal-container-87081" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">各省高铁车站列表</h4>
+                        </div>
+                        <div class="modal-body" >
+                        $for key in data['statarr']:
+                            <h5>$key</h5> 
+                            <p>
+                            $for skey in data['statarr'][key]:
+                                <button bid="$skey" type="button" class="btn btn-success btn-xs addstat">$data['statarr'][key][skey]</button>&nbsp;&nbsp;
+                            </p>
+                        $pass 
+                        </div>
+                        <div class="modal-footer">
+                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭窗口</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript" src='//unpkg.com/wangeditor/release/wangEditor.min.js'></script>
+<script language='javascript'>
+\$(function(){
+    var E = window.wangEditor
+    var editor = new E('#divDemo')
+    editor.customConfig.uploadImgShowBase64 = true
+    var \$detail = \$('#detail');
+    editor.customConfig.onchange = function (html) {
+        \$detail.val(html)
+    }
+    editor.customConfig.menus = [
+    'source',
+    'head',  // 标题
+    'bold',  // 粗体
+    'fontSize',  // 字号
+    'fontName',  // 字体
+    'italic',  // 斜体
+    'underline',  // 下划线
+    'strikeThrough',  // 删除线
+    'foreColor',  // 文字颜色
+    'backColor',  // 背景颜色
+    'link',  // 插入链接
+    'list',  // 列表
+    'justify',  // 对齐方式
+    'quote',  // 引用
+    'emoticon',  // 表情
+    'image',  // 插入图片
+    'table',  // 表格
+    'video',  // 插入视频
+    'code',  // 插入代码
+    'undo',  // 撤销
+    'redo'  // 重复
+    ]
+    editor.create();
+    
+    \$(".addstat").click(function(){
+        \$("#station_id").val(\$(this).attr('bid'));    
+        \$("#station_show").val("\$(this).text()");    
+        \$(".close").click();
+    });
+
+    \$("#clearstat").click(function(){
+        \$("#station_id").val('0');    
+        \$("#station_show").val('');
+    });
+
+    $if(oridata.get('id','0') !='0'):
+        \$("#typeval").val($oridata.get('typeval'));         
+        \$("#line_id").val($oridata.get('line_id'));         
+        editor.txt.html(\$("#detail").val());
+    var statarr = [];
+$for key in data['statarr']:
+    $for skey in data['statarr'][key]:
+        statarr["$skey"] = "$data['statarr'][key][skey]";\
+    $pass
+$pass
+    $if(sid != '0' ):
+        \$("#station_id").val($sid);
+        \$("#typeval").val('8');
+        \$("#station_show").val(statarr["$sid"]);
+    $if(lid  != '0' ):
+        \$("#line_id").val($lid);
+        \$("#typeval").val('9');
+    $if(oridata.get('id','') != '' ):
+        var sid = $oridata.get('station_id');
+        \$("#station_show").val(statarr[sid]);
+});
+</script>
+
+

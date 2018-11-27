@@ -1,0 +1,119 @@
+$def with(page)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$project['name']</title>
+<link rel="stylesheet" href="/static/css/index.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/static/utilLib/bootstrap.min.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/tendina.min.js"></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/twitter-bootstrap/3.0.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!--顶部-->
+    <div class="layout_top_header">
+        <div style="float: left"><span style="font-size: 16px;line-height: 40px;padding-left: 20px;color: #ddd;">$project['name']</h1></span>
+        </div>
+        <div id="ad_setting" class="ad_setting">
+            <a class="ad_setting_a" href="javascript:; ">
+                <i class="icon-user glyph-icon" style="font-size: 20px"></i>
+                <span>管理员</span>
+                <i class="icon-chevron-down glyph-icon"></i>
+            </a>
+            <ul class="dropdown-menu-uu" style="display: none" id="ad_setting_ul">
+                <li class="ad_setting_ul_li"> <a href="/logout">
+                    <i class="icon-signout glyph-icon"></i> 
+                    <span class="font-bold">切换管理员身份</span> </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--顶部结束-->
+
+    <!--菜单-->
+    <div class="layout_left_menu">
+        <ul id="menus">
+            <!--
+            <li class="childUlLi"> <a href="/"  target="_blank"><i class="glyph-icon icon-home"></i>前台</a> </li> 
+            <li class="childUlLi"> <a href="/main"  target="_self"><i class="glyph-icon icon-home"></i>管理首页</a> </li>
+            -->
+            <li class="childUlLi">
+                <a href="#"  target="_self"> <i class="glyph-icon icon-reorder"></i>省份城市列表</a>
+                <ul>
+                    <li><a href="/province"><i class="glyph-icon icon-chevron-right"></i>省份列表</a></li>
+                    <li><a href="/city"><i class="glyph-icon icon-chevron-right"></i>城市列表</a></li>
+                </ul>
+            </li>
+            <li class="childUlLi">
+                <a href="#" target="_self"> <i class="glyph-icon icon-reorder"></i>高铁站及线路</a>
+                <ul>
+                    <li><a href="/station"><i class="glyph-icon icon-chevron-right"></i>高铁站列表</a></li>
+                    <li><a href="/stationedit"><i class="glyph-icon icon-chevron-right"></i>新增/修改高铁站</a></li>
+                    <li><a href="/line"><i class="glyph-icon icon-chevron-right"></i>高铁线路列表</a></li>
+                    <li><a href="/linedit"><i class="glyph-icon icon-chevron-right"></i>新增/修改高铁线路</a></li>
+                </ul>
+            </li>
+            <li class="childUlLi">
+                <a href="#"> <i class="glyph-icon  icon-reorder"></i>高铁知识文章</a>
+                <ul>
+                    <li><a href="/article/8" target="_self"><i class="glyph-icon icon-chevron-right"></i>高铁站介绍</a></li>
+                    <li><a href="/article/9" target="_self"><i class="glyph-icon icon-chevron-right"></i>高铁线路介绍</a></li>
+                    <li><a href="/article/1" target="_self"><i class="glyph-icon icon-chevron-right"></i>高铁建设进度</a></li>
+                    <li><a href="/article/2" target="_self"><i class="glyph-icon icon-chevron-right"></i>高铁知识</a></li>
+                    <li><a href="/articledit" target="_self"><i class="glyph-icon icon-chevron-right"></i>新增/修改文章</a></li>
+                </ul>
+            </li>
+            <li class="childUlLi">
+                <a href="#" target="_self"> <i class="glyph-icon icon-location-arrow"></i>后台帮助</a>
+                <ul>
+                    <li><a href="/help" target="_self"><i class="glyph-icon icon-chevron-right"></i>后台操作帮助</a></li>
+                    <li><a href="http://web.chacuo.net" target="_blank"><i class="glyph-icon icon-chevron-right"></i>颜色选择器</a></li>
+                    <li><a href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank"><i class="glyph-icon icon-chevron-right"></i>百度地图经纬度查询</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!--菜单-->
+    <div id="layout_right_content" class="layout_right_content">
+        <div class="route_bg">
+            &nbsp;&nbsp;<a href="/main">后台管理首页</a><i class="glyph-icon icon-chevron-right"></i>
+            <a href="#" id='nowmenu'></a>
+        </div>
+        <div class="mian_content">
+            <div id="page_content" class="col-md-8">
+            <hr>
+                <div class="container-fluid">
+                    $:page
+                </div>
+                <div style="height:20px;clear:both;">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layout_footer">
+        <p class="bg-warning">Copyright©2018-2022 - Kermit.liyanlin@baofeng.com</p>
+    </div>
+<script language='javascript'>
+\$(function(){
+    var pathname = window.location.pathname;
+    \$("#menus").find("[href='"+pathname+"']").addClass("selected");
+    var txt = \$("#menus").find("[href='"+pathname+"']").text();
+    if( txt != ''){
+        \$("#nowmenu").text(txt);
+    }else{
+        
+        if(pathname.indexOf('stationtext') != -1){ \$("#nowmenu").text('高铁站详情编辑');pname='/stationedit';}
+        else if(pathname.indexOf('stationimg') != -1){ \$("#nowmenu").text('高铁站图片编辑');pname='/stationedit';}
+
+        else if(pathname.indexOf('lineimg') != -1){ \$("#nowmenu").text('高铁线路图片编辑');pname='/linedit';}
+        else if(pathname.indexOf('linetext') != -1){ \$("#nowmenu").text('高铁线路详情编辑');pname='/linedit';}
+        else if(pathname.indexOf('linestats') != -1){ \$("#nowmenu").text('高铁线路站点编辑');pname='/linestats';}
+        \$("#menus").find("[href='"+pname+"']").addClass("selected");
+    }
+});
+</script>
+</body>
+</html>
