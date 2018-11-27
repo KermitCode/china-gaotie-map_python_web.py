@@ -5,4 +5,4 @@
 <br>运行网址：http://gaotie.04007.cn/zhongguo-gaotie-zongtu.zhongguo.gaotie.wang.com
 <br>         http://gaotie.04007.cn/
 <br>地图展示示例：
-<br><img src="http://www.04007.cn/uploads/pageimg/gaotie13.png">
+<br><img src="https://github.com/KermitCode/china-gaotie-map/blob/master/html_elements/gaotie13.png">
