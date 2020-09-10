@@ -13,3 +13,8 @@
 
 <p>地图编辑后台展示：</p>
 <p><img src="https://github.com/KermitCode/china-gaotie-map/blob/master/html_elements/gaotie12.png"></p>
+
+2019年补：因为没有太多的时间维护比较细的信息，后来把一条高铁改成了全编辑，不用对各站进行详细的维护。高铁线路列表页增加了全编辑功能：如下图：
+<img src="https://github.com/KermitCode/china-gaotie-map_python_web.py/blob/master/%E9%AB%98%E9%93%81%E5%A4%A7%E5%85%A8-%E5%85%A8%E7%BC%96%E8%BE%91.jpg?raw=true">
+全编辑界面直接填写各站的经纬度数据即可，位置点可在链接中的百度经纬度查询即可。
+<img src="https://github.com/KermitCode/china-gaotie-map_python_web.py/blob/master/%E9%AB%98%E9%93%81%E5%A4%A7%E5%85%A8%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0-%E5%85%A8%E7%BC%96%E8%BE%91.jpg?raw=true">
