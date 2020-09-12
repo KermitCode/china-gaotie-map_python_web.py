@@ -18,3 +18,5 @@
 <img src="https://github.com/KermitCode/china-gaotie-map_python_web.py/blob/master/%E9%AB%98%E9%93%81%E5%A4%A7%E5%85%A8-%E5%85%A8%E7%BC%96%E8%BE%91.jpg?raw=true">
 全编辑界面直接填写各站的经纬度数据即可，位置点可在链接中的百度经纬度查询即可。
 <img src="https://github.com/KermitCode/china-gaotie-map_python_web.py/blob/master/%E9%AB%98%E9%93%81%E5%A4%A7%E5%85%A8%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0-%E5%85%A8%E7%BC%96%E8%BE%91.jpg?raw=true">
+高铁线路走向图：
+<img src="https://github.com/KermitCode/china-gaotie-map_python_web.py/blob/master/%E9%AB%98%E9%93%81%E7%BA%BF%E8%B7%AF%E8%B5%B0%E5%90%91.jpg?raw=true">
